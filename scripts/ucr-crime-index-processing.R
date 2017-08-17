@@ -61,6 +61,7 @@ UCR_data_long <- gather(UCR_data, `Crime Type`, Value, `AgAsslt Firearm Offenses
 
 #Rename CT
 UCR_data_long$Town[UCR_data_long$Town == "CT"] <- "Connecticut"
+UCR_data_long$Town[UCR_data_long$Town == "Connecticut Total"] <- "Connecticut"
 
 #Remove PD and CSP from names
 UCR_data_long$Town <- gsub(" CSP", "", UCR_data_long$Town)
@@ -82,6 +83,20 @@ town_fips_dp <- datapkg_read(path = town_fips_dp_URL)
 fips <- (town_fips_dp$data[[1]])
 
 UCR_data_long_fips <- merge(UCR_data_long, fips, by = "Town", all.y=T)
+
+#Create CT total for 2014 and 2015
+CT_2015 <- UCR_data_long_fips[UCR_data_long_fips$Year == "2015",]
+
+CT_2015 <- CT_2015 %>% 
+  group_by(`Crime Type`) %>% 
+  summarise(Value = sum(Value), 
+            Population = sum(Population))
+
+CT_2015$Town <- "Connecticut"
+CT_2015$FIPS <- "09"
+CT_2015$Year <- 2015
+
+UCR_data_long_fips <- rbind(UCR_data_long_fips, CT_2015)
 
 # Aggregate data by crime
 # First, turn Crimes into just their broader categories (Murder, Rape, etc)

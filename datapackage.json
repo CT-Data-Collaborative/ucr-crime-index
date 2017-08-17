@@ -2,7 +2,7 @@
   "name": "ucr-crime-index",
   "datapackage_version": "1.0-beta.18",
   "title": "UCR Crime Index",
-  "description": "UCR Crime Index reports the number and rate of violent crimes, per crime type.",
+  "description": "UCR Crime Index reports the number and rate of violent and property crimes, per crime type.",
   "version": "1.0",
   "licenses": [{
     "url": "http://opendatacommons.org/licenses/pddl/",
@@ -21,7 +21,7 @@
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/data.csv",
+    "path": "data/ucr-crime-index_2015.csv",
     "format": "csv",
     "schema": {
       "fields": [{
@@ -37,13 +37,43 @@
           "type": "string",
           "dimension": false
         }, {
+          "name": "Crime Type",
+          "type": "string",
+          "dimension": true,
+          "constraints": {
+		        "enum": [
+		          "Total Crime",
+              "Total Violent Crime",
+              "Total Property Crime",
+              "Aggravated Assault",
+              "Murder",
+              "Rape",
+              "Robbery",
+              "Burglary",
+              "Larceny",
+              "Motor Vehicle Theft",
+              "Arson"
+		        ]
+			    }
+        }, {          
           "name": "Measure Type",
           "type": "string",
-          "dimension": true
+          "dimension": true,
+          "constraints": {
+		        "enum": [
+		          "Number", 
+		          "Rate (per 100,000)"
+		        ]
+			    }
         }, {
           "name": "Variable",
           "type": "string",
-          "dimension": true
+          "dimension": true,
+          "constraints": {
+		        "enum": [
+		          "Crime Index"
+		        ]
+			    }
         }, {
           "name": "Value",
           "type": "number",
@@ -56,7 +86,7 @@
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
-      "value": "The Connecticut Department of Emergency Services and Public Protection (prior to 2011 called the Department of Public Safety) collects and reports crime data in the Uniform Crime Report (UCR) program. This program reports the number of offenses brought to the attention of law enforcement agencies, and is collected and reported to the state by each agency monthly. The DESPP reports this collected data annually. The UCR reports 8 specific offenses referred to as the Crime Index - the violent crimes of murder, rape, robbery, and aggravated assault, the property crimes of burglary, larceny, and motor vehicle theft, and separately reported is arson. CTData has aggregated agency data in two locations to create a uniform level of reporting. For the town of Putnam, the Municipal Police Department and Connecticut State Police agency data has been aggregated. For Groton, the data covering the Town of Groton, the City of Groton, and Groton Long Point have been aggregated. Arson is not included in the calculation of the Total Crime, neither is it counted in Total Violent Crime nor Total Property Crime.",
+      "value": "The Connecticut Department of Emergency Services and Public Protection (prior to 2011 called the Department of Public Safety) collects and reports crime data in the Uniform Crime Report (UCR) program. This program reports the number of offenses brought to the attention of law enforcement agencies, and is collected and reported to the state by each agency monthly. The DESPP reports this collected data annually. The UCR reports 8 specific offenses referred to as the Crime Index - the violent crimes of murder, rape, robbery, and aggravated assault, the property crimes of burglary, larceny, and motor vehicle theft, and separately reported is arson. CTData has aggregated agency data in two locations to create a uniform level of reporting. For the town of Putnam, the Municipal Police Department and Connecticut State Police agency data has been aggregated. For Groton, the data covering the Town of Groton, the City of Groton, and Groton Long Point have been aggregated. Arson is not included in the calculation of the Total Crime, neither is it counted in Total Violent Crime nor Total Property Crime, due to the fact that arson is not included in the calculation of the traditional Crime Index. When the crime of arson is included, it is referred to as the Modified Crime Index.",
       "type": "string"
     },
     "suppression": {
@@ -66,17 +96,17 @@
     },
     "technical_notes": {
       "ckan_name": "Technical Notes",
-      "value": "Technical notes for advanced users",
+      "value": "",
       "type": "string"
     },
     "socrata": {
       "ckan_name": "Socrata",
-      "value": "True",,
+      "value": "True",
       "type": "string"
     },
     "socrata_url": {
       "ckan_name": "Socrata Dataset URL",
-      "value": "https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-System-Offenses-By-Departm/6ntu-dndh",,
+      "value": "https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-System-Offenses-By-Departm/6ntu-dndh",
       "type": "string"
     },
     "domain": {
@@ -89,6 +119,16 @@
       "value": "Public Safety",
       "type": "string"
     },
+    "numerator": {
+      "ckan_name": "Numerator",
+      "value": "The number of reported offenses by town, year, and selected type of crime.",
+      "type": "string"
+    },
+    "denominator": {
+      "ckan_name": "Denominator",
+      "value": "Total estimated population for that town and year.",
+      "type": "string"
+    },    
     "geography": {
       "ckan_name": "Geography",
       "value": "Town",
@@ -102,12 +142,12 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": [],
+      "value": ["2010", "2011", "2012", "2013", "2014", "2015"],
       "type": "array"
     },
     "latest_year": {
       "ckan_name": "Latest Year Available",
-      "value": "Latest year available",
+      "value": "2015",
       "type": "string"
     },
     "disabled_views": {
@@ -123,11 +163,134 @@
         "Percent": "%"
       }
     },
-    "default": {}
+    "expected_number_of_geographies": {
+		  "ckan_name": "Expected Number of Unique Geographies",
+		  "value": 170,
+		  "type": "string"
+		},     
+    "default": {      
+      "ckan_name": "Default",
+			"value": {
+		 		"Town": "Connecticut",
+		 		"Year": "2015",
+		 		"Measure Type": "Number", 
+		 		"Crime Type": ["Total Crime", "Total Property Crime", "Total Violent Crime"],
+		 		"Variable": "Crime Index"
+			},
+		  	"type": "object"
+    } 
   },
-  "spot_checks": [],
+  "spot_checks": [
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Groton",
+        "Year": "2010",
+        "Crime Type": "Total Crime",
+        "Variable": "Crime Index",
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 735
+      } 
+    }, 
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Putnam",
+        "Year": "2011",
+        "Crime Type": "Total Violent Crime",
+        "Variable": "Crime Index",
+        "Measure Type": "Rate (per 100,000)" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 464.9
+      } 
+    },   
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Bridgeport",
+        "Year": "2012",
+        "Crime Type": "Total Property Crime",
+        "Variable": "Crime Index",
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 5153
+      } 
+    },  
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Windham",
+        "Year": "2013",
+        "Crime Type": "Murder",
+        "Variable": "Crime Index",
+        "Measure Type": "Rate (per 100,000)" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 29.7
+      } 
+    },   
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Hartford",
+        "Year": "2014",
+        "Crime Type": "Arson",
+        "Variable": "Crime Index",
+        "Measure Type": "Number" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "int",
+        "value": 45
+      } 
+    },     
+    {
+      "type": "$lookup",
+      "filter": {
+        "Town": "Connecticut",
+        "Year": "2015",
+        "Crime Type": "Motor Vehicle Theft",
+        "Variable": "Crime Index",
+        "Measure Type": "Rate (per 100,000)" 
+      },
+      "expected": {
+        "type": "$match",
+        "number type": "float",
+        "value": 176.6
+      } 
+    }    
+  ],
   "dimension_groups": [
-    {"Measure Type": []},
-    {"Variable": []}
+    {
+      "Measure Type": [
+        "Number", 
+        "Rate (per 100,000)"
+      ],
+      "Crime Type": [
+        "Total Crime",
+        "Total Violent Crime",
+        "Total Property Crime",
+        "Aggravated Assault",
+        "Murder",
+        "Rape",
+        "Robbery",
+        "Burglary",
+        "Larceny",
+        "Motor Vehicle Theft",
+        "Arson"
+      ]
+    }
   ]
 }
