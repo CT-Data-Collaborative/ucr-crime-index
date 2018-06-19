@@ -1,10 +1,8 @@
 UCR Crime Index
 
-[![Build Status](https://travis-ci.org/CT-Data-Collaborative/ucr-crime-index.svg?branch=master)](https://travis-ci.org/CT-Data-Collaborative/ucr-crime-index)
-
 UCR Crime Index reports the number and rate of violent and property crimes, per crime type.
 
-Data Source: <https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-System-Offenses-By-Departm/6ntu-dndh>
+Data Source: <https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-Offenses-2016/ucfd-x63p>
 
 ## License MIT
 

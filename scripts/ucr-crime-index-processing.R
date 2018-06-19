@@ -85,18 +85,18 @@ fips <- (town_fips_dp$data[[1]])
 UCR_data_long_fips <- merge(UCR_data_long, fips, by = "Town", all.y=T)
 
 #Create CT total for 2014 and 2015
-CT_2015 <- UCR_data_long_fips[UCR_data_long_fips$Year == "2015",]
+CT_totals <- UCR_data_long_fips[UCR_data_long_fips$Year %in% c("2015", "2016"),]
 
-CT_2015 <- CT_2015 %>% 
-  group_by(`Crime Type`) %>% 
+CT_totals <- CT_totals %>% 
+  group_by(Year, `Crime Type`) %>% 
   summarise(Value = sum(Value), 
             Population = sum(Population))
 
-CT_2015$Town <- "Connecticut"
-CT_2015$FIPS <- "09"
-CT_2015$Year <- 2015
+CT_totals$Town <- "Connecticut"
+CT_totals$FIPS <- "09"
+CT_totals <- as.data.frame(CT_totals)
 
-UCR_data_long_fips <- rbind(UCR_data_long_fips, CT_2015)
+UCR_data_long_fips <- rbind(UCR_data_long_fips, CT_totals)
 
 # Aggregate data by crime
 # First, turn Crimes into just their broader categories (Murder, Rape, etc)
@@ -179,7 +179,7 @@ UCR_data_long_fips$`Crime Type` <- factor(UCR_data_long_fips$`Crime Type`,
                                                      "Murder",
                                                      "Rape",
                                                      "Robbery",
-                                                     "Burglary",
+                                                     "Burglary", 
                                                      "Larceny",
                                                      "Motor Vehicle Theft",
                                                      "Arson"))
@@ -192,7 +192,7 @@ UCR_data_long_fips <- UCR_data_long_fips %>%
 # write to file
 write.table(
   UCR_data_long_fips,
-  file.path(getwd(), "data", "ucr-crime-index_2015.csv"),
+  file.path(getwd(), "data", "ucr-crime-index_2016.csv"),
   sep = ",",
   row.names = F
 )
