@@ -2,7 +2,7 @@ UCR Crime Index
 
 UCR Crime Index reports the number and rate of violent and property crimes, per crime type.
 
-Data Source: <https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-Offenses-2016/ucfd-x63p>
+Data Source: <https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-Offenses-2017/qkja-bdfa>
 
 ## License MIT
 
