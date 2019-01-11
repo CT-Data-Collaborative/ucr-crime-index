@@ -1,4 +1,6 @@
 library(dplyr)
+library(devtools)
+load_all('../datapkg')
 library(datapkg)
 library(tidyr)
 
@@ -24,7 +26,7 @@ for (i in 1:length(raw_data)) {
   fileCols <- names(current_file)
   ## build list of columns to select out of data
   #Town
-  town = fileCols[grepl("Agency", fileCols, fixed = T) | grepl("Department", fileCols, fixed = T) | grepl("Jurisdiction$", fileCols)]
+  town = fileCols[grepl("Agency", fileCols, fixed = T) | grepl("Department", fileCols, fixed = T) | grepl("Jurisdiction$", fileCols) | grepl("Name$", fileCols)]
   population = "Population"
   #Filter to only include columns named "Offenses" in conjunction with other filters below
   offenses = grepl("Offenses", fileCols, fixed = T)
@@ -192,7 +194,7 @@ UCR_data_long_fips <- UCR_data_long_fips %>%
 # write to file
 write.table(
   UCR_data_long_fips,
-  file.path(getwd(), "data", "ucr-crime-index_2016.csv"),
+  file.path(getwd(), "data", "ucr-crime-index_2017.csv"),
   sep = ",",
   row.names = F
 )

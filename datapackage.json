@@ -15,13 +15,13 @@
     "web": ""
   }],
   "author":[{
-    "name": "Jenna Daly",
-    "email": "jdaly@ctdata.org",
+    "name": "Connecticut Data Collaborative",
+    "email": "info@ctdata.org",
     "web": "http://ctdata.org"
   }],
   "contributor": [],
   "resources": [{
-    "path": "data/ucr-crime-index_2016.csv",
+    "path": "data/ucr-crime-index_2017.csv",
     "format": "csv",
     "schema": {
       "fields": [{
@@ -55,13 +55,13 @@
               "Arson"
 		        ]
 			    }
-        }, {          
+        }, {
           "name": "Measure Type",
           "type": "string",
           "dimension": true,
           "constraints": {
 		        "enum": [
-		          "Number", 
+		          "Number",
 		          "Rate (per 100,000)"
 		        ]
 			    }
@@ -82,7 +82,7 @@
       }
     }
   ],
-  "last_modified": "06/19/2018",
+  "last_modified": "01/11/2019",
   "ckan_extras": {
     "full_description": {
       "ckan_name": "Full Description",
@@ -106,7 +106,7 @@
     },
     "socrata_url": {
       "ckan_name": "Socrata Dataset URL",
-      "value": "https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-Offenses-2016/ucfd-x63p",
+      "value": "https://data.ct.gov/Public-Safety/Uniform-Crime-Reporting-Offenses-2017/qkja-bdfa",
       "type": "string"
     },
     "domain": {
@@ -128,7 +128,7 @@
       "ckan_name": "Denominator",
       "value": "Total estimated population for that town and year.",
       "type": "string"
-    },    
+    },
     "geography": {
       "ckan_name": "Geography",
       "value": "Town",
@@ -142,12 +142,12 @@
     },
     "years_in_catalog": {
       "ckan_name": "Years in Catalog",
-      "value": ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+      "value": ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"],
       "type": "array"
     },
     "latest_year": {
       "ckan_name": "Latest Year Available",
-      "value": "2016",
+      "value": "2017",
       "type": "string"
     },
     "disabled_views": {
@@ -167,18 +167,18 @@
 		  "ckan_name": "Expected Number of Unique Geographies",
 		  "value": 170,
 		  "type": "string"
-		},     
-    "default": {      
+		},
+    "default": {
       "ckan_name": "Default",
 			"value": {
 		 		"Town": "Connecticut",
-		 		"Year": "2016",
-		 		"Measure Type": "Number", 
+		 		"Year": "2017",
+		 		"Measure Type": "Number",
 		 		"Crime Type": ["Total Crime", "Total Property Crime", "Total Violent Crime"],
 		 		"Variable": "Crime Index"
 			},
 		  	"type": "object"
-    } 
+    }
   },
   "spot_checks": [
     {
@@ -188,14 +188,14 @@
         "Year": "2010",
         "Crime Type": "Total Crime",
         "Variable": "Crime Index",
-        "Measure Type": "Number" 
+        "Measure Type": "Number"
       },
       "expected": {
         "type": "$match",
         "number type": "int",
         "value": 735
-      } 
-    }, 
+      }
+    },
     {
       "type": "$lookup",
       "filter": {
@@ -203,14 +203,14 @@
         "Year": "2011",
         "Crime Type": "Total Violent Crime",
         "Variable": "Crime Index",
-        "Measure Type": "Rate (per 100,000)" 
+        "Measure Type": "Rate (per 100,000)"
       },
       "expected": {
         "type": "$match",
         "number type": "float",
         "value": 464.9
-      } 
-    },   
+      }
+    },
     {
       "type": "$lookup",
       "filter": {
@@ -218,14 +218,14 @@
         "Year": "2012",
         "Crime Type": "Total Property Crime",
         "Variable": "Crime Index",
-        "Measure Type": "Number" 
+        "Measure Type": "Number"
       },
       "expected": {
         "type": "$match",
         "number type": "int",
         "value": 5153
-      } 
-    },  
+      }
+    },
     {
       "type": "$lookup",
       "filter": {
@@ -233,14 +233,14 @@
         "Year": "2013",
         "Crime Type": "Murder",
         "Variable": "Crime Index",
-        "Measure Type": "Rate (per 100,000)" 
+        "Measure Type": "Rate (per 100,000)"
       },
       "expected": {
         "type": "$match",
         "number type": "float",
         "value": 29.7
-      } 
-    },   
+      }
+    },
     {
       "type": "$lookup",
       "filter": {
@@ -248,14 +248,14 @@
         "Year": "2014",
         "Crime Type": "Arson",
         "Variable": "Crime Index",
-        "Measure Type": "Number" 
+        "Measure Type": "Number"
       },
       "expected": {
         "type": "$match",
         "number type": "int",
         "value": 45
-      } 
-    },     
+      }
+    },
     {
       "type": "$lookup",
       "filter": {
@@ -263,14 +263,14 @@
         "Year": "2015",
         "Crime Type": "Motor Vehicle Theft",
         "Variable": "Crime Index",
-        "Measure Type": "Rate (per 100,000)" 
+        "Measure Type": "Rate (per 100,000)"
       },
       "expected": {
         "type": "$match",
         "number type": "float",
         "value": 176.6
-      } 
-    },     
+      }
+    },
     {
       "type": "$lookup",
       "filter": {
@@ -278,19 +278,19 @@
         "Year": "2016",
         "Crime Type": "Aggravated Assault",
         "Variable": "Crime Index",
-        "Measure Type": "Rate (per 100,000)" 
+        "Measure Type": "Rate (per 100,000)"
       },
       "expected": {
         "type": "$match",
         "number type": "float",
         "value": 11.6
-      } 
-    }     
+      }
+    }
   ],
   "dimension_groups": [
     {
       "Measure Type": [
-        "Number", 
+        "Number",
         "Rate (per 100,000)"
       ],
       "Crime Type": [
